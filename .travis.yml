@@ -1,0 +1,51 @@
+language: java
+
+env:
+    global:
+        - ANDROID_SDK_VERSION="r22.2.1"
+        - ANDROID_BUILD_TOOLS_VERSION="r17"
+        - ANDROID_PLATFORM_TOOLS_VERSION="r17"
+
+jdk:
+    - openjdk7
+
+before_install:
+    #update system for 32ia libraries
+    - sudo apt-get update -11
+    - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch; fi
+
+    - wget https://dl-ssl.google.com/android/android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
+    - tar -zxf android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
+    - export ANDROID_HOME=`pwd`/android-sdk-linux
+    - export ANDROID_BUILD_TOOLS_HOME=${ANDROID_HOME}/build-tools/17.0.0
+    - export PATH=${ANDROID_BUILD_TOOLS_HOME}:${ANDROID_HOME}/tools:${PATH}
+
+    - export BASEDIR=`pwd`
+
+    - mkdir -p ${ANDROID_BUILD_TOOLS_HOME}
+    - cd ${ANDROID_BUILD_TOOLS_HOME}
+    - export FILE=build-tools_${ANDROID_BUILD_TOOLS_VERSION}-linux.zip
+    - wget https://dl-ssl.google.com/android/repository/${FILE}
+    - unzip -q ${FILE}
+    - rm ${FILE}
+    - export FILE=$(ls)
+    - mv ${FILE}/* .
+    - rmdir ${FILE}
+    - cd ${BASEDIR}
+
+    - export FILE=android-17_r02.zip
+    - wget https://dl-ssl.google.com/android/repository/${FILE}
+    - mkdir -p ${ANDROID_HOME}/platforms
+    - unzip -q ${FILE} -d ${ANDROID_HOME}/platforms
+    - mv ${ANDROID_HOME}/platforms/android-4.2.2 ${ANDROID_HOME}/platforms/android-17
+    - rm ${FILE}
+
+    - unset FILE
+
+    - wget http://downloads.gradle.org/distributions/gradle-1.6-all.zip
+    - unzip -q -o gradle-1.6-all.zip
+    - export PATH="${BASEDIR}/gradle-1.6/bin:${PATH}"
+
+    install: gradle build
+    script: gradle check
+    

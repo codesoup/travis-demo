@@ -11,7 +11,7 @@ jdk:
 
 before_install:
     #update system for 32ia libraries
-    - sudo apt-get update -11
+    - sudo apt-get update -qq
     - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch; fi
 
     - wget https://dl-ssl.google.com/android/android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
@@ -46,7 +46,7 @@ before_install:
     - unzip -q -o gradle-1.6-all.zip
     - export PATH="${BASEDIR}/gradle-1.6/bin:${PATH}"
 
-install: 
+install:
     gradle build
 script:
     gradle check

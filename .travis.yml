@@ -46,6 +46,8 @@ before_install:
     - unzip -q -o gradle-1.6-all.zip
     - export PATH="${BASEDIR}/gradle-1.6/bin:${PATH}"
 
-    install: gradle build
-    script: gradle check
+install: 
+    gradle build
+script:
+    gradle check
     

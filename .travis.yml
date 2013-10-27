@@ -36,18 +36,18 @@ before_install:
     - rmdir ${FILE}
     - cd ${BASEDIR}
 
-    - export FILE=android-17_r02.zip
+    - export FILE=android-18_r02.zip
     - wget https://dl-ssl.google.com/android/repository/${FILE}
     - mkdir -p ${ANDROID_HOME}/platforms
     - unzip -q ${FILE} -d ${ANDROID_HOME}/platforms
-    - mv ${ANDROID_HOME}/platforms/android-4.2.2 ${ANDROID_HOME}/platforms/android-17
+    - mv ${ANDROID_HOME}/platforms/android-4.3 ${ANDROID_HOME}/platforms/android-18
     - rm ${FILE}
 
     - unset FILE
 
-    - wget http://downloads.gradle.org/distributions/gradle-1.6-all.zip
-    - unzip -q -o gradle-1.6-all.zip
-    - export PATH="${BASEDIR}/gradle-1.6/bin:${PATH}"
+    - wget http://downloads.gradle.org/distributions/gradle-1.8-all.zip
+    - unzip -q -o gradle-1.8-all.zip
+    - export PATH="${BASEDIR}/gradle-1.8/bin:${PATH}"
 
 install:
     gradle compileDebug --stacktrace

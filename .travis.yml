@@ -6,6 +6,9 @@ env:
         - ANDROID_BUILD_TOOLS_VERSION="r17"
         - ANDROID_PLATFORM_TOOLS_VERSION="r17"
 
+notifications:
+    email: false
+
 jdk:
     - openjdk7
 
@@ -47,7 +50,7 @@ before_install:
     - export PATH="${BASEDIR}/gradle-1.6/bin:${PATH}"
 
 install:
-    gradle build
+    gradle compileDebug --stacktrace
 script:
     gradle check
     

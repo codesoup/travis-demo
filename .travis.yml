@@ -13,10 +13,11 @@ jdk:
     - openjdk7
 
 before_install:
-    #update system for 32ia libraries
+    #Run Android in 64bit environment
     - sudo apt-get update -qq
     - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch; fi
 
+    #Setup the base
     - wget https://dl-ssl.google.com/android/android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
     - tar -zxf android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
     - export ANDROID_HOME=`pwd`/android-sdk-linux
@@ -25,6 +26,7 @@ before_install:
 
     - export BASEDIR=`pwd`
 
+    #Setup build tools
     - mkdir -p ${ANDROID_BUILD_TOOLS_HOME}
     - cd ${ANDROID_BUILD_TOOLS_HOME}
     - export FILE=build-tools_${ANDROID_BUILD_TOOLS_VERSION}-linux.zip
@@ -36,6 +38,7 @@ before_install:
     - rmdir ${FILE}
     - cd ${BASEDIR}
 
+    #Android SDK v18 (4.3)
     - export FILE=android-18_r02.zip
     - wget https://dl-ssl.google.com/android/repository/${FILE}
     - mkdir -p ${ANDROID_HOME}/platforms
@@ -45,6 +48,7 @@ before_install:
 
     - unset FILE
 
+    #Download and setup gradle
     - wget http://downloads.gradle.org/distributions/gradle-1.8-all.zip
     - unzip -q -o gradle-1.8-all.zip
     - export PATH="${BASEDIR}/gradle-1.8/bin:${PATH}"
